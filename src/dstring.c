@@ -6,15 +6,22 @@
 
 #define DEFAULT_LENGTH 51// 50 for string + 1 for \0
 
+
+void calloc_string(String *string, unsigned capacity);
+
 String *string_new(){
     String *string=calloc(1,sizeof(String));
     if(string!=NULL){
-        string->char_array=calloc(DEFAULT_LENGTH,sizeof(char));
-        if(string->char_array!=NULL){
-            string->capacity=DEFAULT_LENGTH;
-        }else{
-            string->capacity=0;
-        }
+        calloc_string(string,DEFAULT_LENGTH);
     }
     return string;
+}
+
+void calloc_string(String *string, unsigned int capacity){
+    string->char_array=calloc(capacity,sizeof(char));
+    if(string->char_array!=NULL){
+        string->capacity=capacity;
+    }else{
+        string->capacity=0;
+    }
 }
