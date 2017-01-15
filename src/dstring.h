@@ -27,4 +27,7 @@ typedef struct{
     int capacity; /* number of bytes allocated */
 }String;
 
+
+String *string_new();
+
 #endif
