@@ -27,22 +27,45 @@ SOFTWARE.
 #define DEFAULT_LENGTH 51// 50 for string + 1 for \0
 
 
-String *calloc_string(String *string, unsigned capacity);
+void calloc_string(String *string, unsigned int capacity);
+void realloc_string(String *string, unsigned int capacity);
 
 String *string_new(){
     String *string=calloc(1,sizeof(String));
     if(string!=NULL){
-        string=calloc_string(string,DEFAULT_LENGTH);
+        calloc_string(string,DEFAULT_LENGTH);
     }
     return string;
 }
 
-String *calloc_string(String *string, unsigned int capacity){
+void string_copy_text(String *string, const char *text){
+    if(strlen(text)<=string->capacity){
+        strcpy(string->char_array, text);
+    }else{
+        realloc_string(string, strlen(text));
+        if(string->capacity!=0){
+            string_copy_text(string, text);
+        }
+    }
+}
+
+void calloc_string(String *string, unsigned int capacity){
     string->char_array=calloc(capacity,sizeof(char));
+
     if(string->char_array!=NULL){
         string->capacity=capacity;
     }else{
         string->capacity=0;
     }
-    return string;
+}
+
+void realloc_string(String *string, unsigned int capacity){
+    char *tmp=calloc(capacity,sizeof(char));
+
+    if(tmp!=NULL){
+        string->char_array=tmp;
+        string->capacity=capacity;
+    }else{
+        string->capacity=0;
+    }
 }

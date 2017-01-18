@@ -29,5 +29,6 @@ typedef struct{
 
 
 String *string_new();
+void string_copy_text(String *string, const char *text);
 
 #endif
