@@ -33,4 +33,6 @@ String *string_new_with_text(const char *text);
 
 void string_copy_text(String *string, const char *text);
 
+void string_free(String **string);
+
 #endif

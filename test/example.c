@@ -24,15 +24,17 @@ SOFTWARE.
 void test_string_new(String **string);
 void test_string_new_with_text(String **string, const char *text);
 void test_string_copy_text(String *string, char *text);
+void test_string_free(String **string);
 
 int main(int argc, char const *argv[]) {
     String *string1;
     test_string_new(&string1);
     test_string_copy_text(string1, "String test1");
+    test_string_free(&string1);
 
     String *string2;
     test_string_new_with_text(&string2,"String test2");
-
+    test_string_free(&string2);
 
     return 0;
 }
@@ -51,4 +53,9 @@ void test_string_new_with_text(String **string, const char *text){
 void test_string_copy_text(String *string, char *text){
     string_copy_text(string,text);
     printf("%s\n",string->char_array);
+}
+
+void test_string_free(String **string){
+    string_free(string);
+    printf("%p\n",*string);
 }

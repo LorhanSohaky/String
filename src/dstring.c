@@ -26,7 +26,6 @@ SOFTWARE.
 
 #define DEFAULT_LENGTH 51// 50 for string + 1 for \0
 
-
 void calloc_string(String *string, unsigned int capacity);
 void realloc_string(String *string, unsigned int capacity);
 
@@ -75,5 +74,16 @@ void realloc_string(String *string, unsigned int capacity){
         string->capacity=capacity;
     }else{
         string->capacity=0;
+    }
+}
+
+void string_free(String **string){
+    if(*string!=NULL){
+        if((*string)->char_array!=NULL){
+            free((*string)->char_array);
+            (*string)->char_array=NULL;
+        }
+        free(*string);
+        *string=NULL;
     }
 }
