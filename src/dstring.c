@@ -61,6 +61,15 @@ void string_copy_text(String *string, const char *text){
     }
 }
 
+void string_concat_string(String *destination, const String *source){
+    if(strlen(destination->char_array)+strlen(source->char_array)+1<destination->capacity){
+        strcat (destination->char_array,source->char_array);
+    }else{
+        realloc_string(destination,destination->capacity+strlen(source->char_array)+1);
+        string_concat_string(destination,source);
+    }
+}
+
 char string_char_at(String *string, unsigned int index){
     if(string!=NULL && index<strlen(string->char_array)){
         return string->char_array[index];
@@ -97,8 +106,7 @@ void calloc_string(String *string, unsigned int capacity){
 }
 
 void realloc_string(String *string, unsigned int capacity){
-    char *tmp=calloc(capacity,sizeof(char));
-
+    char *tmp=realloc(string->char_array,capacity * sizeof(char));
     if(tmp!=NULL){
         string->char_array=tmp;
         string->capacity=capacity;

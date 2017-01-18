@@ -26,18 +26,25 @@ void test_string_new_with_text(String **string, const char *text);
 void test_string_copy_text(String *string, char *text);
 void test_string_free(String **string);
 void test_string_char_at(String *string, unsigned int index);
+void test_string_concat_string(String *destination, const String *source);
 
 int main(int argc, char const *argv[]) {
     String *string1;
-    test_string_new(&string1);
-    test_string_copy_text(string1, "String test1");
-    test_string_char_at(string1, 1);
-    test_string_free(&string1);
-
     String *string2;
-    test_string_new_with_text(&string2,"String test2");
+
+    test_string_new(&string1);
+    test_string_copy_text(string1, "Stringtest1");
+    test_string_char_at(string1, 1);
+
+    test_string_new_with_text(&string2,"Stringtest2");
+
+    test_string_concat_string(string1,string2);
+    test_string_concat_string(string1,string2);
+    test_string_concat_string(string1,string2);
+    test_string_concat_string(string1,string2);
+
+    test_string_free(&string1);
     test_string_free(&string2);
-    test_string_char_at(string2, 3);
 
     return 0;
 }
@@ -65,4 +72,9 @@ void test_string_free(String **string){
 
 void test_string_char_at(String *string, unsigned int index){
     printf("%c\n",string_char_at(string,index));
+}
+
+void test_string_concat_string(String *destination, const String *source){
+    string_concat_string(destination,source);
+    printf("%s\n",string_get_text(destination));
 }
