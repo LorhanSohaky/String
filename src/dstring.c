@@ -28,7 +28,6 @@ SOFTWARE.
 
 struct _String {
     char* char_array;
-    int length;
     int capacity; /* number of bytes allocated */
 };
 
@@ -54,7 +53,6 @@ String *string_new_with_text(const char *text){
 void string_copy_text(String *string, const char *text){
     if(strlen(text)+1<=string->capacity){
         strcpy(string->char_array, text);
-        string->length=strlen(text);
     }else{
         realloc_string(string, strlen(text)+1);
         if(string->capacity!=0){
