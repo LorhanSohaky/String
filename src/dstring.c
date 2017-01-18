@@ -63,6 +63,13 @@ void string_copy_text(String *string, const char *text){
     }
 }
 
+char string_char_at(String *string, unsigned int index){
+    if(string!=NULL && index<strlen(string->char_array)){
+        return string->char_array[index];
+    }
+    return '\0';
+}
+
 char *string_get_text(String *string){
     if(string!=NULL){
         return string->char_array;

@@ -29,6 +29,7 @@ String *string_new_with_text(const char *text);
 
 void string_copy_text(String *string, const char *text);
 
+char string_char_at(String *string, unsigned int index);
 char *string_get_text(String *string);
 
 void string_free(String **string);

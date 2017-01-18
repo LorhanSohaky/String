@@ -25,16 +25,19 @@ void test_string_new(String **string);
 void test_string_new_with_text(String **string, const char *text);
 void test_string_copy_text(String *string, char *text);
 void test_string_free(String **string);
+void test_string_char_at(String *string, unsigned int index);
 
 int main(int argc, char const *argv[]) {
     String *string1;
     test_string_new(&string1);
     test_string_copy_text(string1, "String test1");
+    test_string_char_at(string1, 12);
     test_string_free(&string1);
 
     String *string2;
     test_string_new_with_text(&string2,"String test2");
     test_string_free(&string2);
+    test_string_char_at(string2, 3);
 
     return 0;
 }
@@ -58,4 +61,8 @@ void test_string_copy_text(String *string, char *text){
 void test_string_free(String **string){
     string_free(string);
     printf("%p\n",*string);
+}
+
+void test_string_char_at(String *string, unsigned int index){
+    printf("%c\n",string_char_at(string,index));
 }
