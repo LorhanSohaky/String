@@ -22,12 +22,17 @@ SOFTWARE.
 #include <stdio.h>
 
 void test_string_new(String **string);
+void test_string_new_with_text(String **string, const char *text);
 void test_string_copy_text(String *string, char *text);
 
 int main(int argc, char const *argv[]) {
-    String *string;
-    test_string_new(&string);
-    test_string_copy_text(string, "String test");
+    String *string1;
+    test_string_new(&string1);
+    test_string_copy_text(string1, "String test1");
+
+    String *string2;
+    test_string_new_with_text(&string2,"String test2");
+
 
     return 0;
 }
@@ -36,6 +41,11 @@ int main(int argc, char const *argv[]) {
 void test_string_new(String **string){
     *string=string_new();
     printf("%p\n",*string);
+}
+
+void test_string_new_with_text(String **string, const char *text){
+    *string=string_new_with_text(text);
+    printf("%s\n",(*string)->char_array);
 }
 
 void test_string_copy_text(String *string, char *text){

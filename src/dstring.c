@@ -38,6 +38,14 @@ String *string_new(){
     return string;
 }
 
+String *string_new_with_text(const char *text){
+    String *string=string_new();
+    if(string!=NULL){
+        string_copy_text(string, text);
+    }
+    return string;
+}
+
 void string_copy_text(String *string, const char *text){
     if(strlen(text)<=string->capacity){
         strcpy(string->char_array, text);
