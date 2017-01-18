@@ -26,6 +26,12 @@ SOFTWARE.
 
 #define DEFAULT_LENGTH 51// 50 for string + 1 for \0
 
+struct _String {
+    char* char_array;
+    int length;
+    int capacity; /* number of bytes allocated */
+};
+
 void calloc_string(String *string, unsigned int capacity);
 void realloc_string(String *string, unsigned int capacity);
 
@@ -75,6 +81,13 @@ void realloc_string(String *string, unsigned int capacity){
     }else{
         string->capacity=0;
     }
+}
+
+char *string_get_text(String *string){
+    if(string!=NULL){
+        return string->char_array;
+    }
+    return NULL;
 }
 
 void string_free(String **string){

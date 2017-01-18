@@ -21,17 +21,15 @@ SOFTWARE.
 #ifndef DYNAMIC_STRING_H
 #define DYNAMIC_STRING_H
 
-typedef struct{
-    char* char_array;
-    int length;
-    int capacity; /* number of bytes allocated */
-}String;
+typedef struct _String String;
 
 
 String *string_new();
 String *string_new_with_text(const char *text);
 
 void string_copy_text(String *string, const char *text);
+
+char *string_get_text(String *string);
 
 void string_free(String **string);
 

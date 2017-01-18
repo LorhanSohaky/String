@@ -47,12 +47,12 @@ void test_string_new(String **string){
 
 void test_string_new_with_text(String **string, const char *text){
     *string=string_new_with_text(text);
-    printf("%s\n",(*string)->char_array);
+    printf("%s\n",string_get_text(*string));
 }
 
 void test_string_copy_text(String *string, char *text){
     string_copy_text(string,text);
-    printf("%s\n",string->char_array);
+    printf("%s\n",string_get_text(string));
 }
 
 void test_string_free(String **string){
