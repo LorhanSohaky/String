@@ -52,10 +52,11 @@ String *string_new_with_text(const char *text){
 }
 
 void string_copy_text(String *string, const char *text){
-    if(strlen(text)<=string->capacity){
+    if(strlen(text)+1<=string->capacity){
         strcpy(string->char_array, text);
+        string->length=strlen(text);
     }else{
-        realloc_string(string, strlen(text));
+        realloc_string(string, strlen(text)+1);
         if(string->capacity!=0){
             string_copy_text(string, text);
         }
