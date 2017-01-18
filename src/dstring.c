@@ -62,6 +62,24 @@ void string_copy_text(String *string, const char *text){
     }
 }
 
+char *string_get_text(String *string){
+    if(string!=NULL){
+        return string->char_array;
+    }
+    return NULL;
+}
+
+void string_free(String **string){
+    if(*string!=NULL){
+        if((*string)->char_array!=NULL){
+            free((*string)->char_array);
+            (*string)->char_array=NULL;
+        }
+        free(*string);
+        *string=NULL;
+    }
+}
+
 void calloc_string(String *string, unsigned int capacity){
     string->char_array=calloc(capacity,sizeof(char));
 
@@ -80,23 +98,5 @@ void realloc_string(String *string, unsigned int capacity){
         string->capacity=capacity;
     }else{
         string->capacity=0;
-    }
-}
-
-char *string_get_text(String *string){
-    if(string!=NULL){
-        return string->char_array;
-    }
-    return NULL;
-}
-
-void string_free(String **string){
-    if(*string!=NULL){
-        if((*string)->char_array!=NULL){
-            free((*string)->char_array);
-            (*string)->char_array=NULL;
-        }
-        free(*string);
-        *string=NULL;
     }
 }
