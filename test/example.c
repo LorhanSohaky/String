@@ -31,7 +31,7 @@ int main(int argc, char const *argv[]) {
     String *string1;
     test_string_new(&string1);
     test_string_copy_text(string1, "String test1");
-    test_string_char_at(string1, 12);
+    test_string_char_at(string1, 1);
     test_string_free(&string1);
 
     String *string2;
