@@ -21,18 +21,24 @@ SOFTWARE.
 #include <dstring.h>
 #include <stdio.h>
 
-void test_string_new(String *string);
+void test_string_new(String **string);
+void test_string_copy_text(String *string, char *text);
 
 int main(int argc, char const *argv[]) {
     String *string;
-
-    test_string_new(string);
+    test_string_new(&string);
+    test_string_copy_text(string, "String test");
 
     return 0;
 }
 
 
-void test_string_new(String *string){
-    string=string_new();
-    printf("%p\n",string);
+void test_string_new(String **string){
+    *string=string_new();
+    printf("%p\n",*string);
+}
+
+void test_string_copy_text(String *string, char *text){
+    string_copy_text(string,text);
+    printf("%s\n",string->char_array);
 }
