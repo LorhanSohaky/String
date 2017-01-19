@@ -39,9 +39,6 @@ int main(int argc, char const *argv[]) {
     test_string_new_with_text(&string2,"Stringtest2");
 
     test_string_concat_string(string1,string2);
-    test_string_concat_string(string1,string2);
-    test_string_concat_string(string1,string2);
-    test_string_concat_string(string1,string2);
 
     test_string_free(&string1);
     test_string_free(&string2);
@@ -75,6 +72,8 @@ void test_string_char_at(String *string, unsigned int index){
 }
 
 void test_string_concat_string(String *destination, const String *source){
-    string_concat_string(destination,source);
-    printf("%s\n",string_get_text(destination));
+    for (int i=0;i<5;i++){
+        string_concat_string(destination,source);
+        printf("%s\n",string_get_text(destination));
+    }
 }
