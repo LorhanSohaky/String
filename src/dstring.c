@@ -43,6 +43,10 @@ String *string_new(){
 }
 
 String *string_new_with_text(const char *text){
+    if(text==NULL){
+        return NULL;
+    }
+
     String *string=string_new();
     if(string!=NULL){
         if(!string_copy_char_array(string, text)){
@@ -53,6 +57,10 @@ String *string_new_with_text(const char *text){
 }
 
 bool string_copy_char_array(String *string, const char *text){
+    if(string==NULL || text==NULL){
+        return false;
+    }
+
     if(strlen(text)<string->capacity){
         strcpy(string->char_array, text);
         return true;
@@ -66,14 +74,15 @@ bool string_copy_char_array(String *string, const char *text){
 }
 
 bool string_concat_string(String *destination, const String *source){
-    if(source==NULL || source->char_array==NULL){
+    if(source==NULL){
         return false;
     }
+
     return string_concat_char_array(destination,source->char_array);
 }
 
 bool string_concat_char_array(String *destination, const char *source){
-    if(destination==NULL || destination->char_array==NULL || source==NULL){
+    if(destination==NULL || source==NULL){
         return false;
     }
 
@@ -126,6 +135,7 @@ bool calloc_string(String *string, unsigned int capacity){
 
 bool realloc_string(String *string, unsigned int capacity){
     char *tmp=realloc(string->char_array,(capacity+1) * sizeof(char));
+    
     if(tmp!=NULL){
         string->char_array=tmp;
         string->capacity=capacity;
