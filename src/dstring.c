@@ -111,11 +111,19 @@ char string_char_at(String *string, unsigned int index){
     return '\0';
 }
 
-char *string_get_text(String *string){
+char *string_get_text(const String *string){
     if(string!=NULL){
         return string->char_array;
     }
     return NULL;
+}
+
+int string_get_length(const String *string){
+    if(string!=NULL){
+        return strlen(string->char_array);
+    }else{
+        return -1;
+    }
 }
 
 void string_free(String **string){
