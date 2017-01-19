@@ -27,6 +27,7 @@ void test_string_copy_char_array(String *string, char *text);
 void test_string_free(String **string);
 void test_string_char_at(String *string, unsigned int index);
 void test_string_concat_string(String *destination, const String *source);
+void test_string_concat_char_array(String *destination,const char *source);
 
 int main(int argc, char const *argv[]) {
     String *string1;
@@ -39,6 +40,7 @@ int main(int argc, char const *argv[]) {
     test_string_new_with_text(&string2,"Stringtest2");
 
     test_string_concat_string(string1,string2);
+    test_string_concat_char_array(string1," TEST ");
 
     test_string_free(&string1);
     test_string_free(&string2);
@@ -74,6 +76,13 @@ void test_string_char_at(String *string, unsigned int index){
 void test_string_concat_string(String *destination, const String *source){
     for (int i=0;i<5;i++){
         string_concat_string(destination,source);
+        printf("%s\n",string_get_text(destination));
+    }
+}
+
+void test_string_concat_char_array(String *destination,const char *source){//cd .. && git add * && git commit -m "" && cd test
+    for (int i=0;i<5;i++){
+        string_concat_char_array(destination,source);
         printf("%s\n",string_get_text(destination));
     }
 }

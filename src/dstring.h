@@ -30,7 +30,9 @@ String *string_new();
 String *string_new_with_text(const char *text);
 
 bool string_copy_char_array(String *string, const char *text);
+
 bool string_concat_string(String *destination, const String *source);
+bool string_concat_char_array(String *destination, const char *source);
 
 char string_char_at(String *string, unsigned int index);
 char *string_get_text(String *string);

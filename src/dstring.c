@@ -66,14 +66,25 @@ bool string_copy_char_array(String *string, const char *text){
 }
 
 bool string_concat_string(String *destination, const String *source){
-    if(strlen(destination->char_array)+strlen(source->char_array)<destination->capacity){
-        strcat (destination->char_array,source->char_array);
+    if(source==NULL || source->char_array==NULL){
+        return false;
+    }
+    return string_concat_char_array(destination,source->char_array);
+}
+
+bool string_concat_char_array(String *destination, const char *source){
+    if(destination==NULL || destination->char_array==NULL || source==NULL){
+        return false;
+    }
+
+    if(strlen(destination->char_array)+strlen(source)<destination->capacity){
+        strcat (destination->char_array,source);
         return true;
     }else{
-        if(!realloc_string(destination,destination->capacity+strlen(source->char_array))){
+        if(!realloc_string(destination,destination->capacity+strlen(source))){
             return false;
         }
-        return string_concat_string(destination,source);
+        return string_concat_char_array(destination,source);
     }
 }
 
