@@ -80,7 +80,7 @@ void test_string_concat_string(String *destination, const String *source){
     }
 }
 
-void test_string_concat_char_array(String *destination,const char *source){//cd .. && git add * && git commit -m "" && cd test
+void test_string_concat_char_array(String *destination,const char *source){
     for (int i=0;i<5;i++){
         string_concat_char_array(destination,source);
         printf("%s\n",string_get_text(destination));
