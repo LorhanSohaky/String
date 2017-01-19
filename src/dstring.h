@@ -29,7 +29,7 @@ typedef struct _String String;
 String *string_new();
 String *string_new_with_text(const char *text);
 
-bool string_copy_text(String *string, const char *text);
+bool string_copy_char_array(String *string, const char *text);
 bool string_concat_string(String *destination, const String *source);
 
 char string_char_at(String *string, unsigned int index);

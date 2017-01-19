@@ -45,14 +45,14 @@ String *string_new(){
 String *string_new_with_text(const char *text){
     String *string=string_new();
     if(string!=NULL){
-        if(!string_copy_text(string, text)){
+        if(!string_copy_char_array(string, text)){
             string_free(&string);
         }
     }
     return string;
 }
 
-bool string_copy_text(String *string, const char *text){
+bool string_copy_char_array(String *string, const char *text){
     if(strlen(text)<string->capacity){
         strcpy(string->char_array, text);
         return true;
@@ -60,7 +60,7 @@ bool string_copy_text(String *string, const char *text){
         if(!realloc_string(string, strlen(text))){
             return false;
         }else{
-            return string_copy_text(string, text);
+            return string_copy_char_array(string, text);
         }
     }
 }

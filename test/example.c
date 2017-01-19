@@ -23,7 +23,7 @@ SOFTWARE.
 
 void test_string_new(String **string);
 void test_string_new_with_text(String **string, const char *text);
-void test_string_copy_text(String *string, char *text);
+void test_string_copy_char_array(String *string, char *text);
 void test_string_free(String **string);
 void test_string_char_at(String *string, unsigned int index);
 void test_string_concat_string(String *destination, const String *source);
@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
     String *string2;
 
     test_string_new(&string1);
-    test_string_copy_text(string1, "Stringtest1");
+    test_string_copy_char_array(string1, "Stringtest1");
     test_string_char_at(string1, 1);
 
     test_string_new_with_text(&string2,"Stringtest2");
@@ -57,8 +57,8 @@ void test_string_new_with_text(String **string, const char *text){
     printf("%s\n",string_get_text(*string));
 }
 
-void test_string_copy_text(String *string, char *text){
-    string_copy_text(string,text);
+void test_string_copy_char_array(String *string, char *text){
+    string_copy_char_array(string,text);
     printf("%s\n",string_get_text(string));
 }
 
