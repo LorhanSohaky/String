@@ -24,7 +24,7 @@ SOFTWARE.
 #include <stdio.h>
 #include <stdlib.h>
 
-#define DEFAULT_LENGTH 51// 50 for string + 1 for \0
+#define DEFAULT_LENGTH 50
 
 struct _String {
     char* char_array;
@@ -53,11 +53,11 @@ String *string_new_with_text(const char *text){
 }
 
 bool string_copy_text(String *string, const char *text){
-    if(strlen(text)+1<=string->capacity){
+    if(strlen(text)<string->capacity){
         strcpy(string->char_array, text);
         return true;
     }else{
-        if(!realloc_string(string, strlen(text)+1)){
+        if(!realloc_string(string, strlen(text))){
             return false;
         }else{
             return string_copy_text(string, text);
@@ -66,11 +66,11 @@ bool string_copy_text(String *string, const char *text){
 }
 
 bool string_concat_string(String *destination, const String *source){
-    if(strlen(destination->char_array)+strlen(source->char_array)+1<destination->capacity){
+    if(strlen(destination->char_array)+strlen(source->char_array)<destination->capacity){
         strcat (destination->char_array,source->char_array);
         return true;
     }else{
-        if(!realloc_string(destination,destination->capacity+strlen(source->char_array)+1)){
+        if(!realloc_string(destination,destination->capacity+strlen(source->char_array))){
             return false;
         }
         return string_concat_string(destination,source);
@@ -114,7 +114,7 @@ bool calloc_string(String *string, unsigned int capacity){
 }
 
 bool realloc_string(String *string, unsigned int capacity){
-    char *tmp=realloc(string->char_array,capacity * sizeof(char));
+    char *tmp=realloc(string->char_array,(capacity+1) * sizeof(char));
     if(tmp!=NULL){
         string->char_array=tmp;
         string->capacity=capacity;
