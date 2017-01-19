@@ -31,8 +31,8 @@ struct _String {
     int capacity; /* number of bytes allocated */
 };
 
-void calloc_string(String *string, unsigned int capacity);
-void realloc_string(String *string, unsigned int capacity);
+bool calloc_string(String *string, unsigned int capacity);
+bool realloc_string(String *string, unsigned int capacity);
 
 String *string_new(){
     String *string=calloc(1,sizeof(String));
@@ -45,28 +45,35 @@ String *string_new(){
 String *string_new_with_text(const char *text){
     String *string=string_new();
     if(string!=NULL){
-        string_copy_text(string, text);
+        if(!string_copy_text(string, text)){
+            string_free(&string);
+        }
     }
     return string;
 }
 
-void string_copy_text(String *string, const char *text){
+bool string_copy_text(String *string, const char *text){
     if(strlen(text)+1<=string->capacity){
         strcpy(string->char_array, text);
+        return true;
     }else{
-        realloc_string(string, strlen(text)+1);
-        if(string->capacity!=0){
-            string_copy_text(string, text);
+        if(!realloc_string(string, strlen(text)+1)){
+            return false;
+        }else{
+            return string_copy_text(string, text);
         }
     }
 }
 
-void string_concat_string(String *destination, const String *source){
+bool string_concat_string(String *destination, const String *source){
     if(strlen(destination->char_array)+strlen(source->char_array)+1<destination->capacity){
         strcat (destination->char_array,source->char_array);
+        return true;
     }else{
-        realloc_string(destination,destination->capacity+strlen(source->char_array)+1);
-        string_concat_string(destination,source);
+        if(!realloc_string(destination,destination->capacity+strlen(source->char_array)+1)){
+            return false;
+        }
+        return string_concat_string(destination,source);
     }
 }
 
@@ -95,22 +102,24 @@ void string_free(String **string){
     }
 }
 
-void calloc_string(String *string, unsigned int capacity){
+bool calloc_string(String *string, unsigned int capacity){
     string->char_array=calloc(capacity,sizeof(char));
 
     if(string->char_array!=NULL){
         string->capacity=capacity;
+        return true;
     }else{
-        string->capacity=0;
+        return false;
     }
 }
 
-void realloc_string(String *string, unsigned int capacity){
+bool realloc_string(String *string, unsigned int capacity){
     char *tmp=realloc(string->char_array,capacity * sizeof(char));
     if(tmp!=NULL){
         string->char_array=tmp;
         string->capacity=capacity;
+        return true;
     }else{
-        string->capacity=0;
+        return false;
     }
 }
