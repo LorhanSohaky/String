@@ -25,6 +25,7 @@ void test_string_new(String **string);
 void test_string_new_with_text(String **string, const char *text);
 void test_string_copy_string(String *destination, const String *source);
 void test_string_copy_char_array(String *string, char *text);
+void test_string_sprint(String *string);
 void test_string_free(String **string);
 void test_string_char_at(String *string, unsigned int index);
 void test_string_concat_string(String *destination, const String *source);
@@ -48,6 +49,8 @@ int main(int argc, char const *argv[]) {
 
     test_string_copy_char_array(string1,"");
     test_string_get_length(string1);
+
+    test_string_sprint(string1);
 
     test_string_free(&string1);
     test_string_free(&string2);
@@ -101,4 +104,9 @@ void test_string_concat_char_array(String *destination,const char *source){
 
 void test_string_get_length(String *string){
     printf("%d\n",string_get_length(string));
+}
+
+void test_string_sprint(String *string){
+    string_sprint(string,"%s %d","Test",3);
+    printf("%s\n",string_get_text(string));
 }

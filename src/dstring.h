@@ -32,6 +32,7 @@ String *string_new_with_text(const char *text);
 
 bool string_copy_string(String *destination, const String *source);
 bool string_copy_char_array(String *string, const char *text);
+bool string_sprint(String *string, const char *format,...);
 
 bool string_concat_string(String *destination, const String *source);
 bool string_concat_char_array(String *destination, const char *source);

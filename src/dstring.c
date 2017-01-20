@@ -33,7 +33,7 @@ struct _String {
 
 bool calloc_string(String *string, unsigned int capacity);
 bool realloc_string(String *string, unsigned int capacity);
-int get_length_required(const char *format,...);
+int get_length_required(const char *format,va_list *list);
 
 String *string_new(){
     String *string=calloc(1,sizeof(String));
@@ -79,6 +79,34 @@ bool string_copy_char_array(String *string, const char *text){
             return string_copy_char_array(string, text);
         }
     }
+}
+
+bool string_sprint(String *string, const char *format,...){
+    int capacity_required;
+    bool result;
+    va_list args;
+    va_start(args, format);
+    capacity_required=get_length_required(format,&args);
+    va_end(args);
+
+    va_start(args, format);
+    if(string->capacity>capacity_required){
+        vsprintf(string->char_array,format,args);
+        result=true;
+    }else{
+        if(realloc_string(string,capacity_required)){
+            vsprintf(string->char_array,format,args);
+            result=true;
+        }else{
+            result=false;
+        }
+    }
+    va_end(args);
+    return result;
+}
+
+int get_length_required(const char *format,va_list *list){
+    return vsnprintf( NULL, 0, format,*list);
 }
 
 bool string_concat_string(String *destination, const String *source){
@@ -159,17 +187,4 @@ bool realloc_string(String *string, unsigned int capacity){
     }else{
         return false;
     }
-}
-
-int get_length_required(const char *format,...){
-    if(format==NULL){
-        return -1;
-    }
-
-    va_list args;
-    int length;
-    va_start(args, format);
-    length = vsnprintf( NULL, 0, format,args);
-    va_end(args);
-    return length;
 }
