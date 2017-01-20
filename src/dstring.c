@@ -20,171 +20,171 @@ SOFTWARE.
 
 #include <dstring.h>
 
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define DEFAULT_LENGTH 50
 
 struct _String {
-    char* char_array;
+    char *char_array;
     int capacity; /* number of bytes allocated */
 };
 
-bool calloc_string(String *string, unsigned int capacity);
-bool realloc_string(String *string, unsigned int capacity);
-int get_length_required(const char *format,va_list *list);
+bool calloc_string( String *string, unsigned int capacity );
+bool realloc_string( String *string, unsigned int capacity );
+int get_length_required( const char *format, va_list *list );
 
-String *string_new(){
-    String *string=calloc(1,sizeof(String));
-    if(string!=NULL){
-        calloc_string(string,DEFAULT_LENGTH);
+String *string_new() {
+    String *string = calloc( 1, sizeof( String ) );
+    if( string != NULL ) {
+        calloc_string( string, DEFAULT_LENGTH );
     }
     return string;
 }
 
-String *string_new_with_text(const char *text){
-    if(text==NULL){
+String *string_new_with_text( const char *text ) {
+    if( text == NULL ) {
         return NULL;
     }
 
-    String *string=string_new();
-    if(string!=NULL){
-        if(!string_copy_char_array(string, text)){
-            string_free(&string);
+    String *string = string_new();
+    if( string != NULL ) {
+        if( !string_copy_char_array( string, text ) ) {
+            string_free( &string );
         }
     }
     return string;
 }
 
-bool string_copy_string(String *destination, const String *source){
-    if(destination==NULL || source==NULL){
+bool string_copy_string( String *destination, const String *source ) {
+    if( destination == NULL || source == NULL ) {
         return false;
     }
-    return string_copy_char_array(destination,source->char_array);
+    return string_copy_char_array( destination, source->char_array );
 }
 
-bool string_copy_char_array(String *string, const char *text){
-    if(string==NULL || text==NULL){
+bool string_copy_char_array( String *string, const char *text ) {
+    if( string == NULL || text == NULL ) {
         return false;
     }
 
-    if(strlen(text)<string->capacity){
-        strcpy(string->char_array, text);
+    if( strlen( text ) < string->capacity ) {
+        strcpy( string->char_array, text );
         return true;
-    }else{
-        if(!realloc_string(string, strlen(text))){
+    } else {
+        if( !realloc_string( string, strlen( text ) ) ) {
             return false;
-        }else{
-            return string_copy_char_array(string, text);
+        } else {
+            return string_copy_char_array( string, text );
         }
     }
 }
 
-bool string_sprint(String *string, const char *format,...){
+bool string_sprint( String *string, const char *format, ... ) {
     int capacity_required;
     bool result;
     va_list args;
-    va_start(args, format);
-    capacity_required=get_length_required(format,&args);
-    va_end(args);
+    va_start( args, format );
+    capacity_required = get_length_required( format, &args );
+    va_end( args );
 
-    va_start(args, format);
-    if(string->capacity>capacity_required){
-        vsprintf(string->char_array,format,args);
-        result=true;
-    }else{
-        if(realloc_string(string,capacity_required)){
-            vsprintf(string->char_array,format,args);
-            result=true;
-        }else{
-            result=false;
+    va_start( args, format );
+    if( string->capacity > capacity_required ) {
+        vsprintf( string->char_array, format, args );
+        result = true;
+    } else {
+        if( realloc_string( string, capacity_required ) ) {
+            vsprintf( string->char_array, format, args );
+            result = true;
+        } else {
+            result = false;
         }
     }
-    va_end(args);
+    va_end( args );
     return result;
 }
 
-int get_length_required(const char *format,va_list *list){
-    return vsnprintf( NULL, 0, format,*list);
+int get_length_required( const char *format, va_list *list ) {
+    return vsnprintf( NULL, 0, format, *list );
 }
 
-bool string_concat_string(String *destination, const String *source){
-    if(source==NULL){
+bool string_concat_string( String *destination, const String *source ) {
+    if( source == NULL ) {
         return false;
     }
 
-    return string_concat_char_array(destination,source->char_array);
+    return string_concat_char_array( destination, source->char_array );
 }
 
-bool string_concat_char_array(String *destination, const char *source){
-    if(destination==NULL || source==NULL){
+bool string_concat_char_array( String *destination, const char *source ) {
+    if( destination == NULL || source == NULL ) {
         return false;
     }
 
-    if(strlen(destination->char_array)+strlen(source)<destination->capacity){
-        strcat (destination->char_array,source);
+    if( strlen( destination->char_array ) + strlen( source ) < destination->capacity ) {
+        strcat( destination->char_array, source );
         return true;
-    }else{
-        if(!realloc_string(destination,destination->capacity+strlen(source))){
+    } else {
+        if( !realloc_string( destination, destination->capacity + strlen( source ) ) ) {
             return false;
         }
-        return string_concat_char_array(destination,source);
+        return string_concat_char_array( destination, source );
     }
 }
 
-char string_char_at(String *string, unsigned int index){
-    if(string!=NULL && index<strlen(string->char_array)){
+char string_char_at( String *string, unsigned int index ) {
+    if( string != NULL && index < strlen( string->char_array ) ) {
         return string->char_array[index];
     }
     return '\0';
 }
 
-char *string_get_text(const String *string){
-    if(string!=NULL){
+char *string_get_text( const String *string ) {
+    if( string != NULL ) {
         return string->char_array;
     }
     return NULL;
 }
 
-int string_get_length(const String *string){
-    if(string!=NULL){
-        return strlen(string->char_array);
-    }else{
+int string_get_length( const String *string ) {
+    if( string != NULL ) {
+        return strlen( string->char_array );
+    } else {
         return -1;
     }
 }
 
-void string_free(String **string){
-    if(*string!=NULL){
-        if((*string)->char_array!=NULL){
-            free((*string)->char_array);
-            (*string)->char_array=NULL;
+void string_free( String **string ) {
+    if( *string != NULL ) {
+        if( ( *string )->char_array != NULL ) {
+            free( ( *string )->char_array );
+            ( *string )->char_array = NULL;
         }
-        free(*string);
-        *string=NULL;
+        free( *string );
+        *string = NULL;
     }
 }
 
-bool calloc_string(String *string, unsigned int capacity){
-    string->char_array=calloc(capacity,sizeof(char));
+bool calloc_string( String *string, unsigned int capacity ) {
+    string->char_array = calloc( capacity, sizeof( char ) );
 
-    if(string->char_array!=NULL){
-        string->capacity=capacity;
+    if( string->char_array != NULL ) {
+        string->capacity = capacity;
         return true;
-    }else{
+    } else {
         return false;
     }
 }
 
-bool realloc_string(String *string, unsigned int capacity){
-    char *tmp=realloc(string->char_array,(capacity+1) * sizeof(char));
+bool realloc_string( String *string, unsigned int capacity ) {
+    char *tmp = realloc( string->char_array, ( capacity + 1 ) * sizeof( char ) );
 
-    if(tmp!=NULL){
-        string->char_array=tmp;
-        string->capacity=capacity;
+    if( tmp != NULL ) {
+        string->char_array = tmp;
+        string->capacity = capacity;
         return true;
-    }else{
+    } else {
         return false;
     }
 }
