@@ -22,6 +22,7 @@ SOFTWARE.
 #define DYNAMIC_STRING_H
 
 #include <stdbool.h>
+#include <stdarg.h>
 
 typedef struct _String String;
 
