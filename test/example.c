@@ -63,56 +63,56 @@ int main( int argc, char const *argv[] ) {
 
 void test_string_new( String **string ) {
     *string = string_new();
-    printf( "%p\n", *string );
+    printf( "String new:%p\n", *string );
 }
 
 void test_string_new_with_text( String **string, const char *text ) {
     *string = string_new_with_text( text );
-    printf( "%s\n", string_get_text( *string ) );
+    printf( "String new with text:%s\n", string_get_text( *string ) );
 }
 
 void test_string_copy_string( String *destination, const String *source ) {
     string_copy_string( destination, source );
-    printf( "%s\n", string_get_text( destination ) );
+    printf( "String copy string:%s\n", string_get_text( destination ) );
 }
 
 void test_string_copy_char_array( String *string, char *text ) {
     string_copy_char_array( string, text );
-    printf( "%s\n", string_get_text( string ) );
+    printf( "String copy char array:%s\n", string_get_text( string ) );
 }
 
 void test_string_free( String **string ) {
     string_free( string );
-    printf( "%p\n", *string );
+    printf( "String free:%p\n", *string );
 }
 
 void test_string_char_at( String *string, unsigned int index ) {
-    printf( "%c\n", string_char_at( string, index ) );
+    printf( "String char at:%c\n", string_char_at( string, index ) );
 }
 
 void test_string_concat_string( String *destination, const String *source ) {
     for( int i = 0; i < 5; i++ ) {
         string_concat_string( destination, source );
-        printf( "%s\n", string_get_text( destination ) );
+        printf( "String concat string:%s\n", string_get_text( destination ) );
     }
 }
 
 void test_string_concat_char_array( String *destination, const char *source ) {
     for( int i = 0; i < 5; i++ ) {
         string_concat_char_array( destination, source );
-        printf( "%s\n", string_get_text( destination ) );
+        printf( "String concat char array:%s\n", string_get_text( destination ) );
     }
 }
 
 void test_string_get_length( String *string ) {
-    printf( "%d\n", string_get_length( string ) );
+    printf( "String get length:%d\n", string_get_length( string ) );
 }
 
 void test_string_sprint( String *string ) {
     string_sprint( string, "%s %d", "Test", 3 );
-    printf( "%s\n", string_get_text( string ) );
+    printf( "String sprint:%s\n", string_get_text( string ) );
 }
 
 void test_string_compare_string( String *string1, String *string2 ) {
-    printf( "%d\n", string_compare_string( string1, string2 ) );
+    printf( "String compare string:%d\n", string_compare_string( string1, string2 ) );
 }
