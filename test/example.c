@@ -35,6 +35,7 @@ void test_string_compare( String *string1, String *string2 );
 void test_string_compare_by_locale( String *string1, String *string2 );
 void test_string_is_equals( String *string1, String *string2 );
 void test_string_is_equals_by_locale( String *string1, String *string2 );
+void test_string_is_empty( String *string );
 
 int main( int argc, char const *argv[] ) {
     String *string1;
@@ -61,6 +62,9 @@ int main( int argc, char const *argv[] ) {
 
     test_string_is_equals( string1, string2 );
     test_string_is_equals_by_locale( string1, string2 );
+
+    test_string_is_empty( string1 );
+    test_string_is_empty( NULL );
 
     test_string_free( &string1 );
     test_string_free( &string2 );
@@ -147,5 +151,10 @@ void test_string_is_equals( String *string1, String *string2 ) {
 
 void test_string_is_equals_by_locale( String *string1, String *string2 ) {
     printf( "String is equals by locale:%d\n", string_is_equals_by_locale( string1, string2 ) );
+    printf( "\n" );
+}
+
+void test_string_is_empty( String *string ) {
+    printf( "String is empty:%d\n", string_is_empty( string ) );
     printf( "\n" );
 }

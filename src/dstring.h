@@ -45,6 +45,7 @@ int string_compare_by_locale( const String *string1, const String *string2 );
 char string_char_at( String *string, unsigned int index );
 char *string_get_text( const String *string );
 int string_get_length( const String *string );
+bool string_is_empty( const String *string );
 
 void string_free( String **string );
 

@@ -180,6 +180,14 @@ int string_get_length( const String *string ) {
     }
 }
 
+bool string_is_empty( const String *string ) {
+    if( string == NULL || string->capacity == 0 || strlen( string->char_array ) == 0 ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void string_free( String **string ) {
     if( *string != NULL ) {
         if( ( *string )->char_array != NULL ) {
