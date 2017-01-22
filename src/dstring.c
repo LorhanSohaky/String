@@ -134,6 +134,22 @@ bool string_concat_char_array( String *destination, const char *source ) {
     }
 }
 
+bool string_is_equals( const String *string1, const String *string2 ) {
+    if( string_compare( string1, string2 ) == 0 ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool string_is_equals_by_locale( const String *string1, const String *string2 ) {
+    if( string_compare_by_locale( string1, string2 ) == 0 ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 int string_compare( const String *string1, const String *string2 ) {
     return strcmp( string1->char_array, string2->char_array );
 }

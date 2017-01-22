@@ -33,6 +33,8 @@ void test_string_concat_char_array( String *destination, const char *source );
 void test_string_get_length( String *string );
 void test_string_compare( String *string1, String *string2 );
 void test_string_compare_by_locale( String *string1, String *string2 );
+void test_string_is_equals( String *string1, String *string2 );
+void test_string_is_equals_by_locale( String *string1, String *string2 );
 
 int main( int argc, char const *argv[] ) {
     String *string1;
@@ -56,6 +58,9 @@ int main( int argc, char const *argv[] ) {
 
     test_string_compare( string1, string2 );
     test_string_compare_by_locale( string1, string2 );
+
+    test_string_is_equals( string1, string2 );
+    test_string_is_equals_by_locale( string1, string2 );
 
     test_string_free( &string1 );
     test_string_free( &string2 );
@@ -121,4 +126,12 @@ void test_string_compare( String *string1, String *string2 ) {
 
 void test_string_compare_by_locale( String *string1, String *string2 ) {
     printf( "String compare by locale:%d\n", string_compare_by_locale( string1, string2 ) );
+}
+
+void test_string_is_equals( String *string1, String *string2 ) {
+    printf( "String is equals:%d\n", string_is_equals( string1, string2 ) );
+}
+
+void test_string_is_equals_by_locale( String *string1, String *string2 ) {
+    printf( "String is equals by locale:%d\n", string_is_equals_by_locale( string1, string2 ) );
 }

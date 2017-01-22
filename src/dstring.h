@@ -36,6 +36,9 @@ bool string_sprint( String *string, const char *format, ... );
 bool string_concat_string( String *destination, const String *source );
 bool string_concat_char_array( String *destination, const char *source );
 
+bool string_is_equals( const String *string1, const String *string2 );
+bool string_is_equals_by_locale( const String *string1, const String *string2 );
+
 int string_compare( const String *string1, const String *string2 );
 int string_compare_by_locale( const String *string1, const String *string2 );
 
