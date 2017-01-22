@@ -134,7 +134,11 @@ bool string_concat_char_array( String *destination, const char *source ) {
     }
 }
 
-int string_compare_string( const String *string1, const String *string2 ) {
+int string_compare( const String *string1, const String *string2 ) {
+    return strcmp( string1->char_array, string2->char_array );
+}
+
+int string_compare_by_locale( const String *string1, const String *string2 ) {
     return strcoll( string1->char_array, string2->char_array );
 }
 
