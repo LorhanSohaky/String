@@ -36,6 +36,8 @@ bool string_sprint( String *string, const char *format, ... );
 bool string_concat_string( String *destination, const String *source );
 bool string_concat_char_array( String *destination, const char *source );
 
+int string_compare_string( const String *string1, const String *string2 );
+
 char string_char_at( String *string, unsigned int index );
 char *string_get_text( const String *string );
 int string_get_length( const String *string );

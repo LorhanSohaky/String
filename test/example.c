@@ -31,6 +31,7 @@ void test_string_char_at( String *string, unsigned int index );
 void test_string_concat_string( String *destination, const String *source );
 void test_string_concat_char_array( String *destination, const char *source );
 void test_string_get_length( String *string );
+void test_string_compare_string( String *string1, String *string2 );
 
 int main( int argc, char const *argv[] ) {
     String *string1;
@@ -51,6 +52,8 @@ int main( int argc, char const *argv[] ) {
     test_string_get_length( string1 );
 
     test_string_sprint( string1 );
+
+    test_string_compare_string( string1, string2 );
 
     test_string_free( &string1 );
     test_string_free( &string2 );
@@ -108,4 +111,8 @@ void test_string_get_length( String *string ) {
 void test_string_sprint( String *string ) {
     string_sprint( string, "%s %d", "Test", 3 );
     printf( "%s\n", string_get_text( string ) );
+}
+
+void test_string_compare_string( String *string1, String *string2 ) {
+    printf( "%d\n", string_compare_string( string1, string2 ) );
 }

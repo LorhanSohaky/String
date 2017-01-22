@@ -20,6 +20,7 @@ SOFTWARE.
 
 #include <dstring.h>
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -131,6 +132,10 @@ bool string_concat_char_array( String *destination, const char *source ) {
         }
         return string_concat_char_array( destination, source );
     }
+}
+
+int string_compare_string( const String *string1, const String *string2 ) {
+    return strcoll( string1->char_array, string2->char_array );
 }
 
 char string_char_at( String *string, unsigned int index ) {
