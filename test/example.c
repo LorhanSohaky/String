@@ -63,11 +63,11 @@ int main( int argc, char const *argv[] ) {
     test_string_compare( string1, string2 );
     test_string_compare_by_locale( string1, string2 );
 
+    test_string_copy_string( string1, string2 );
     test_string_is_equals( string1, string2 );
     test_string_is_equals_by_locale( string1, string2 );
 
     test_string_is_empty( string1 );
-    test_string_is_empty( NULL );
 
     test_string_free( &string1 );
     test_string_free( &string2 );

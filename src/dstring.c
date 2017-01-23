@@ -23,7 +23,6 @@ SOFTWARE.
 
 #include <dstring.h>
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,10 +47,6 @@ String *string_new() {
 }
 
 String *string_new_with_text( const char *text ) {
-    if( text == NULL ) {
-        return NULL;
-    }
-
     String *string = string_new_with_size( strlen( text ) );
     if( string != NULL ) {
         if( !string_copy_char_array( string, text ) ) {
@@ -70,17 +65,10 @@ String *string_new_with_size( unsigned int size ) {
 }
 
 bool string_copy_string( String *destination, const String *source ) {
-    if( destination == NULL || source == NULL ) {
-        return false;
-    }
     return string_copy_char_array( destination, source->char_array );
 }
 
 bool string_copy_char_array( String *string, const char *text ) {
-    if( string == NULL || text == NULL ) {
-        return false;
-    }
-
     if( strlen( text ) < string->capacity ) {
         strcpy( string->char_array, text );
         return true;
@@ -122,18 +110,10 @@ int get_length_required( const char *format, va_list *list ) {
 }
 
 bool string_concat_string( String *destination, const String *source ) {
-    if( source == NULL ) {
-        return false;
-    }
-
     return string_concat_char_array( destination, source->char_array );
 }
 
 bool string_concat_char_array( String *destination, const char *source ) {
-    if( destination == NULL || source == NULL ) {
-        return false;
-    }
-
     if( strlen( destination->char_array ) + strlen( source ) < destination->capacity ) {
         strcat( destination->char_array, source );
         return true;
@@ -146,19 +126,11 @@ bool string_concat_char_array( String *destination, const char *source ) {
 }
 
 bool string_is_equals( const String *string1, const String *string2 ) {
-    if( string_compare( string1, string2 ) == 0 ) {
-        return true;
-    } else {
-        return false;
-    }
+    return string_compare( string1, string2 ) == 0;
 }
 
 bool string_is_equals_by_locale( const String *string1, const String *string2 ) {
-    if( string_compare_by_locale( string1, string2 ) == 0 ) {
-        return true;
-    } else {
-        return false;
-    }
+    return string_compare_by_locale( string1, string2 ) == 0;
 }
 
 int string_compare( const String *string1, const String *string2 ) {
@@ -170,29 +142,22 @@ int string_compare_by_locale( const String *string1, const String *string2 ) {
 }
 
 char string_char_at( String *string, unsigned int index ) {
-    if( string != NULL && index < strlen( string->char_array ) ) {
+    if( index < strlen( string->char_array ) ) {
         return string->char_array[index];
     }
     return '\0';
 }
 
 char *string_get_text( const String *string ) {
-    if( string != NULL ) {
-        return string->char_array;
-    }
-    return NULL;
+    return string->char_array;
 }
 
 int string_get_length( const String *string ) {
-    if( string != NULL ) {
-        return strlen( string->char_array );
-    } else {
-        return -1;
-    }
+    return strlen( string->char_array );
 }
 
 bool string_is_empty( const String *string ) {
-    if( string == NULL || string->capacity == 0 || strlen( string->char_array ) == 0 ) {
+    if( string->capacity == 0 || strlen( string->char_array ) == 0 ) {
         return true;
     } else {
         return false;
