@@ -176,14 +176,15 @@ void string_free( String **string ) {
 }
 
 bool string_resize( String *string ) {
-    return realloc( string, strlen( string->char_array ) );
+    return realloc_string( string, strlen( string->char_array ) );
 }
 
 bool calloc_string( String *string, unsigned int capacity ) {
-    string->char_array = calloc( capacity + 1, sizeof( char ) );
+    capacity++;
+    string->char_array = calloc( capacity, sizeof( char ) );
 
     if( string->char_array != NULL ) {
-        string->capacity = capacity + 1;
+        string->capacity = capacity;
         return true;
     } else {
         return false;
@@ -191,7 +192,8 @@ bool calloc_string( String *string, unsigned int capacity ) {
 }
 
 bool realloc_string( String *string, unsigned int capacity ) {
-    char *tmp = realloc( string->char_array, ( capacity + 1 ) * sizeof( char ) );
+    capacity++;
+    char *tmp = realloc( string->char_array, capacity * sizeof( char ) );
 
     if( tmp != NULL ) {
         string->char_array = tmp;
