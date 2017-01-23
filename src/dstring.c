@@ -210,6 +210,10 @@ void string_free( String **string ) {
     }
 }
 
+bool string_resize( String *string ) {
+    return realloc( string, strlen( string->char_array ) );
+}
+
 bool calloc_string( String *string, unsigned int capacity ) {
     string->char_array = calloc( capacity + 1, sizeof( char ) );
 

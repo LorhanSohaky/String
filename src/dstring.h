@@ -49,5 +49,6 @@ int string_get_length( const String *string );
 bool string_is_empty( const String *string );
 
 void string_free( String **string );
+bool string_resize( String *string );
 
 #endif
