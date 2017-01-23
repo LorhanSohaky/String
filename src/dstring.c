@@ -18,6 +18,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+// TODO substring(int beginIndex, int endIndex),  replaceAll(String regex, String replacement),
+// replaceFirst
+
 #include <dstring.h>
 
 #include <assert.h>
@@ -25,7 +28,7 @@ SOFTWARE.
 #include <stdlib.h>
 #include <string.h>
 
-#define DEFAULT_LENGTH 50
+#define DEFAULT_CAPACITY 50
 
 struct _String {
     char *char_array;
@@ -39,7 +42,7 @@ int get_length_required( const char *format, va_list *list );
 String *string_new() {
     String *string = calloc( 1, sizeof( String ) );
     if( string != NULL ) {
-        calloc_string( string, DEFAULT_LENGTH );
+        calloc_string( string, DEFAULT_CAPACITY );
     }
     return string;
 }
@@ -49,11 +52,19 @@ String *string_new_with_text( const char *text ) {
         return NULL;
     }
 
-    String *string = string_new();
+    String *string = string_new_with_size( strlen( text ) );
     if( string != NULL ) {
         if( !string_copy_char_array( string, text ) ) {
             string_free( &string );
         }
+    }
+    return string;
+}
+
+String *string_new_with_size( unsigned int size ) {
+    String *string = calloc( 1, sizeof( String ) );
+    if( string != NULL ) {
+        calloc_string( string, size );
     }
     return string;
 }
@@ -200,10 +211,10 @@ void string_free( String **string ) {
 }
 
 bool calloc_string( String *string, unsigned int capacity ) {
-    string->char_array = calloc( capacity, sizeof( char ) );
+    string->char_array = calloc( capacity + 1, sizeof( char ) );
 
     if( string->char_array != NULL ) {
-        string->capacity = capacity;
+        string->capacity = capacity + 1;
         return true;
     } else {
         return false;

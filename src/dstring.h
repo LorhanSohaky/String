@@ -28,6 +28,7 @@ typedef struct _String String;
 
 String *string_new();
 String *string_new_with_text( const char *text );
+String *string_new_with_size( unsigned int size );
 
 bool string_copy_string( String *destination, const String *source );
 bool string_copy_char_array( String *string, const char *text );
