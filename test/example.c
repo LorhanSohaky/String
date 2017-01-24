@@ -37,6 +37,7 @@ void test_string_is_equals( String *string1, String *string2 );
 void test_string_is_equals_by_locale( String *string1, String *string2 );
 void test_string_is_empty( String *string );
 void test_string_resize( String *string );
+void test_string_replace_all( String *string, const char *regex, const char *replacement );
 
 int main( int argc, char const *argv[] ) {
     String *string1;
@@ -49,7 +50,12 @@ int main( int argc, char const *argv[] ) {
     test_string_new_with_text( &string2, "Stringtest2" );
 
     test_string_concat_string( string1, string2 );
+
+    test_string_copy_char_array( string1, "String" );
     test_string_concat_char_array( string1, " TEST " );
+
+    test_string_replace_all( string1, "TEST", "h" );
+    test_string_replace_all( string1, "h", "Lorhan Sohaky" );
 
     test_string_copy_string( string1, string2 );
 
@@ -164,5 +170,11 @@ void test_string_is_empty( String *string ) {
 
 void test_string_resize( String *string ) {
     printf( "String resize:%d\n", string_resize( string ) );
+    printf( "\n" );
+}
+
+void test_string_replace_all( String *string, const char *regex, const char *replacement ) {
+    string_replace_all( string, regex, replacement );
+    printf( "String replace all:%s\n", string_get_text( string ) );
     printf( "\n" );
 }

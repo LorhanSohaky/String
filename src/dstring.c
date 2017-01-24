@@ -37,6 +37,8 @@ struct _String {
 bool calloc_string( String *string, unsigned int capacity );
 bool realloc_string( String *string, unsigned int capacity );
 int get_length_required( const char *format, va_list *list );
+int count_substring( String *string, const char *substring );
+void concat_n_string( String *destination, const char *replacement );
 
 String *string_new() {
     String *string = calloc( 1, sizeof( String ) );
@@ -139,6 +141,57 @@ int string_compare( const String *string1, const String *string2 ) {
 
 int string_compare_by_locale( const String *string1, const String *string2 ) {
     return strcoll( string1->char_array, string2->char_array );
+}
+
+bool string_replace_all( String *string, const char *regex, const char *replacement ) {
+    int total = count_substring( string, regex );
+    int length_necessary = ( strlen( replacement ) - strlen( regex ) ) * total;
+    String *new_string = string_new_with_size( strlen( string->char_array ) + length_necessary );
+    string_copy_string( new_string, string );
+    if( new_string == NULL ) {
+        return false;
+    }
+    char *tmp = string->char_array;
+    char *next;
+    int init_position;
+
+    tmp = strstr( tmp, regex );
+    init_position = tmp - string->char_array;
+    for( int i = 0; i < total; i++ ) {
+        new_string->char_array[init_position] = '\0';
+        concat_n_string( new_string, replacement );
+
+        next = tmp + strlen( regex );
+        next = strstr( next, regex );
+
+        tmp += strlen( regex );
+        if( next == NULL ) {
+            next = &tmp[strlen( tmp ) + 1];
+        }
+        tmp[next - tmp] = '\0';
+
+        concat_n_string( new_string, tmp );
+        tmp = next;
+        init_position = tmp - new_string->char_array;
+    }
+    free( string->char_array );
+    string->char_array = new_string->char_array;
+    free( new_string );
+    return true;
+}
+
+void concat_n_string( String *destination, const char *replacement ) {
+    strncat( destination->char_array, replacement, strlen( replacement ) + 1 ); //+1 for '\0'
+}
+
+int count_substring( String *string, const char *substring ) {
+    int count = 0;
+    char *tmp_char_array = string->char_array;
+    while( ( tmp_char_array = strstr( tmp_char_array, substring ) ) != NULL ) {
+        count++;
+        tmp_char_array += strlen( substring );
+    }
+    return count;
 }
 
 char string_char_at( String *string, unsigned int index ) {
