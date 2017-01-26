@@ -232,6 +232,10 @@ char string_char_at( String *string, unsigned int index ) {
     return '\0';
 }
 
+bool string_set_text( String *string, const char *char_array ) {
+    return string_copy_char_array( string, char_array );
+}
+
 char *string_get_text( const String *string ) {
     return string->char_array;
 }

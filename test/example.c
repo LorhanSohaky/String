@@ -40,6 +40,7 @@ void test_string_resize( String *string );
 void test_string_replace_all( String *string, const char *regex, const char *replacement );
 void test_string_replace_first( String *string, const char *regex, const char *replacement );
 void test_string_substring( String *string );
+void test_string_set_text( String *string, const char *char_array );
 
 int main( int argc, char const *argv[] ) {
     String *string1;
@@ -78,6 +79,8 @@ int main( int argc, char const *argv[] ) {
     test_string_is_equals_by_locale( string1, string2 );
 
     test_string_is_empty( string1 );
+
+    test_string_set_text( string1, "New String" );
 
     test_string_free( &string1 );
     test_string_free( &string2 );
@@ -192,5 +195,11 @@ void test_string_replace_first( String *string, const char *regex, const char *r
 void test_string_substring( String *string ) {
     String *substring = string_substring( string, 1, 4 );
     printf( "String substring:%s\n", string_get_text( substring ) );
+    printf( "\n" );
+}
+
+void test_string_set_text( String *string, const char *char_array ) {
+    string_set_text( string, char_array );
+    printf( "String set text:%s\n", string_get_text( string ) );
     printf( "\n" );
 }
