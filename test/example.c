@@ -39,6 +39,7 @@ void test_string_is_empty( String *string );
 void test_string_resize( String *string );
 void test_string_replace_all( String *string, const char *regex, const char *replacement );
 void test_string_replace_first( String *string, const char *regex, const char *replacement );
+void test_string_substring( String *string );
 
 int main( int argc, char const *argv[] ) {
     String *string1;
@@ -58,6 +59,7 @@ int main( int argc, char const *argv[] ) {
     test_string_replace_all( string1, "TEST", "h" );
     test_string_replace_all( string1, "h", "Lorhan Sohaky" );
     test_string_replace_first( string1, "Lorhan Sohaky", "First" );
+    test_string_substring( string1 );
 
     test_string_copy_string( string1, string2 );
 
@@ -184,5 +186,11 @@ void test_string_replace_all( String *string, const char *regex, const char *rep
 void test_string_replace_first( String *string, const char *regex, const char *replacement ) {
     string_replace_first( string, regex, replacement );
     printf( "String replace first:%s\n", string_get_text( string ) );
+    printf( "\n" );
+}
+
+void test_string_substring( String *string ) {
+    String *substring = string_substring( string, 1, 4 );
+    printf( "String substring:%s\n", string_get_text( substring ) );
     printf( "\n" );
 }

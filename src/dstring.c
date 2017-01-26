@@ -18,8 +18,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-// TODO substring(int beginIndex, int endIndex),
-
 #include <dstring.h>
 
 #include <stdio.h>
@@ -80,6 +78,15 @@ bool string_copy_char_array( String *string, const char *text ) {
             return string_copy_char_array( string, text );
         }
     }
+}
+
+String *string_substring( String *string, int beginIndex, int endIndex ) {
+    String *substring = string_new_with_size( endIndex - beginIndex );
+    if( substring == NULL ) {
+        return NULL;
+    }
+    memcpy( substring->char_array, &( string->char_array[beginIndex] ), endIndex );
+    return substring;
 }
 
 bool string_sprint( String *string, const char *format, ... ) {
