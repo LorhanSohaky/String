@@ -18,8 +18,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-// TODO substring(int beginIndex, int endIndex),  replaceAll(String regex, String replacement),
-// replaceFirst
+// TODO substring(int beginIndex, int endIndex),
 
 #include <dstring.h>
 
@@ -143,11 +142,35 @@ int string_compare_by_locale( const String *string1, const String *string2 ) {
     return strcoll( string1->char_array, string2->char_array );
 }
 
+bool string_replace_first( String *string, const char *regex, const char *replacement ) {
+    int total = count_substring( string, regex );
+    int length_necessary = strlen( replacement ) - strlen( regex );
+    String *new_string = string_new_with_size( strlen( string->char_array ) + length_necessary );
+    if( total == 0 || new_string == NULL ) {
+        return false;
+    }
+    char *tmp = string->char_array;
+    int init_position;
+
+    tmp = strstr( tmp, regex );
+    init_position = tmp - string->char_array;
+    strncpy( new_string->char_array, string->char_array, init_position );
+
+    new_string->char_array[init_position] = '\0';
+    concat_n_string( new_string, replacement );
+    tmp += strlen( regex );
+    concat_n_string( new_string, tmp );
+
+    free( string->char_array );
+    string->char_array = new_string->char_array;
+    free( new_string );
+    return true;
+}
+
 bool string_replace_all( String *string, const char *regex, const char *replacement ) {
     int total = count_substring( string, regex );
     int length_necessary = ( strlen( replacement ) - strlen( regex ) ) * total;
     String *new_string = string_new_with_size( strlen( string->char_array ) + length_necessary );
-    string_copy_string( new_string, string );
     if( total == 0 || new_string == NULL ) {
         return false;
     }
@@ -157,6 +180,7 @@ bool string_replace_all( String *string, const char *regex, const char *replacem
 
     tmp = strstr( tmp, regex );
     init_position = tmp - string->char_array;
+    strncpy( new_string->char_array, string->char_array, init_position );
     for( int i = 0; i < total; i++ ) {
         new_string->char_array[init_position] = '\0';
         concat_n_string( new_string, replacement );
@@ -169,11 +193,11 @@ bool string_replace_all( String *string, const char *regex, const char *replacem
             next = &tmp[strlen( tmp ) + 1];
         }
         tmp[next - tmp] = '\0';
-
         concat_n_string( new_string, tmp );
         tmp = next;
         init_position = tmp - new_string->char_array;
     }
+
     free( string->char_array );
     string->char_array = new_string->char_array;
     free( new_string );

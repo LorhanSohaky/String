@@ -37,6 +37,7 @@ bool string_sprint( String *string, const char *format, ... );
 bool string_concat_string( String *destination, const String *source );
 bool string_concat_char_array( String *destination, const char *source );
 
+bool string_replace_first( String *string, const char *regex, const char *replacement );
 bool string_replace_all( String *string, const char *regex, const char *replacement );
 
 bool string_is_equals( const String *string1, const String *string2 );
