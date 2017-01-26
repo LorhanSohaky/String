@@ -148,7 +148,7 @@ bool string_replace_all( String *string, const char *regex, const char *replacem
     int length_necessary = ( strlen( replacement ) - strlen( regex ) ) * total;
     String *new_string = string_new_with_size( strlen( string->char_array ) + length_necessary );
     string_copy_string( new_string, string );
-    if( new_string == NULL ) {
+    if( total == 0 || new_string == NULL ) {
         return false;
     }
     char *tmp = string->char_array;
