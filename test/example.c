@@ -26,17 +26,17 @@ void test_string_new_with_text( String **string, const char *text );
 void test_string_copy_string( String *destination, const String *source );
 void test_string_copy_char_array( String *string, char *text );
 void test_string_sprint( String *string );
-void test_string_free( String **string );
+void test_string_free( String *string );
 void test_string_char_at( String *string, unsigned int index );
 void test_string_concat_string( String *destination, const String *source );
 void test_string_concat_char_array( String *destination, const char *source );
 void test_string_get_length( String *string );
 void test_string_compare( String *string1, String *string2 );
 void test_string_compare_by_locale( String *string1, String *string2 );
-void test_string_is_equals( String *string1, String *string2 );
-void test_string_is_equals_by_locale( String *string1, String *string2 );
+void test_string_equals( String *string1, String *string2 );
+void test_string_equals_by_locale( String *string1, String *string2 );
 void test_string_is_empty( String *string );
-void test_string_resize( String *string );
+void test_string_shrink_to_fit( String *string );
 void test_string_replace_all( String *string, const char *regex, const char *replacement );
 void test_string_replace_first( String *string, const char *regex, const char *replacement );
 void test_string_substring( String *string );
@@ -64,7 +64,7 @@ int main( int argc, char const *argv[] ) {
 
     test_string_copy_string( string1, string2 );
 
-    test_string_resize( string1 );
+    test_string_shrink_to_fit( string1 );
 
     test_string_copy_char_array( string1, "" );
     test_string_get_length( string1 );
@@ -75,15 +75,15 @@ int main( int argc, char const *argv[] ) {
     test_string_compare_by_locale( string1, string2 );
 
     test_string_copy_string( string1, string2 );
-    test_string_is_equals( string1, string2 );
-    test_string_is_equals_by_locale( string1, string2 );
+    test_string_equals( string1, string2 );
+    test_string_equals_by_locale( string1, string2 );
 
     test_string_is_empty( string1 );
 
     test_string_set_text( string1, "New String" );
 
-    test_string_free( &string1 );
-    test_string_free( &string2 );
+    test_string_free( string1 );
+    test_string_free( string2 );
 
     return 0;
 }
@@ -112,9 +112,9 @@ void test_string_copy_char_array( String *string, char *text ) {
     printf( "\n" );
 }
 
-void test_string_free( String **string ) {
+void test_string_free( String *string ) {
     string_free( string );
-    printf( "String free:%p\n", *string );
+    printf( "String free:%p\n", string );
     printf( "\n" );
 }
 
@@ -160,13 +160,13 @@ void test_string_compare_by_locale( String *string1, String *string2 ) {
     printf( "\n" );
 }
 
-void test_string_is_equals( String *string1, String *string2 ) {
-    printf( "String is equals:%d\n", string_is_equals( string1, string2 ) );
+void test_string_equals( String *string1, String *string2 ) {
+    printf( "String equals:%d\n", string_equals( string1, string2 ) );
     printf( "\n" );
 }
 
-void test_string_is_equals_by_locale( String *string1, String *string2 ) {
-    printf( "String is equals by locale:%d\n", string_is_equals_by_locale( string1, string2 ) );
+void test_string_equals_by_locale( String *string1, String *string2 ) {
+    printf( "String equals by locale:%d\n", string_equals_by_locale( string1, string2 ) );
     printf( "\n" );
 }
 
@@ -175,8 +175,8 @@ void test_string_is_empty( String *string ) {
     printf( "\n" );
 }
 
-void test_string_resize( String *string ) {
-    printf( "String resize:%d\n", string_resize( string ) );
+void test_string_shrink_to_fit( String *string ) {
+    printf( "String shrink to fit:%d\n", string_shrink_to_fit( string ) );
     printf( "\n" );
 }
 

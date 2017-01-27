@@ -41,8 +41,8 @@ bool string_concat_char_array( String *destination, const char *source );
 bool string_replace_first( String *string, const char *regex, const char *replacement );
 bool string_replace_all( String *string, const char *regex, const char *replacement );
 
-bool string_is_equals( const String *string1, const String *string2 );
-bool string_is_equals_by_locale( const String *string1, const String *string2 );
+bool string_equals( const String *string1, const String *string2 );
+bool string_equals_by_locale( const String *string1, const String *string2 );
 
 int string_compare( const String *string1, const String *string2 );
 int string_compare_by_locale( const String *string1, const String *string2 );
@@ -53,7 +53,7 @@ char *string_get_text( const String *string );
 int string_get_length( const String *string );
 bool string_is_empty( const String *string );
 
-void string_free( String **string );
-bool string_resize( String *string );
+void string_free( String *string );
+bool string_shrink_to_fit( String *string );
 
 #endif

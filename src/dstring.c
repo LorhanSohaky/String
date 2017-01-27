@@ -49,7 +49,7 @@ String *string_new_with_text( const char *text ) {
     String *string = string_new_with_size( strlen( text ) );
     if( string != NULL ) {
         if( !string_copy_char_array( string, text ) ) {
-            string_free( &string );
+            string_free( string );
         }
     }
     return string;
@@ -133,11 +133,11 @@ bool string_concat_char_array( String *destination, const char *source ) {
     }
 }
 
-bool string_is_equals( const String *string1, const String *string2 ) {
+bool string_equals( const String *string1, const String *string2 ) {
     return string_compare( string1, string2 ) == 0;
 }
 
-bool string_is_equals_by_locale( const String *string1, const String *string2 ) {
+bool string_equals_by_locale( const String *string1, const String *string2 ) {
     return string_compare_by_locale( string1, string2 ) == 0;
 }
 
@@ -252,18 +252,17 @@ bool string_is_empty( const String *string ) {
     }
 }
 
-void string_free( String **string ) {
-    if( *string != NULL ) {
-        if( ( *string )->char_array != NULL ) {
-            free( ( *string )->char_array );
-            ( *string )->char_array = NULL;
+void string_free( String *string ) {
+    if( string != NULL ) {
+        if( string->char_array != NULL ) {
+            free( string->char_array );
+            string->char_array = NULL;
         }
-        free( *string );
-        *string = NULL;
+        free( string );
     }
 }
 
-bool string_resize( String *string ) {
+bool string_shrink_to_fit( String *string ) {
     return realloc_string( string, strlen( string->char_array ) );
 }
 
