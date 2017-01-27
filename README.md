@@ -14,7 +14,7 @@ Read the [Wiki](https://github.com/LorhanSohaky/String/wiki) to see all details
 
 ### EXAMPLE
 
-```
+```C
 #include <stdio.h>
 #include <dstring.h>
 
