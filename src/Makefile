@@ -23,4 +23,4 @@
 all:DString
 
 DString:dstring.c dstring.h
-	gcc -Wall -c dstring.c -I.
+	gcc -Wall -c dstring.c -I. -O3
