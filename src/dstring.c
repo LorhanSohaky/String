@@ -68,15 +68,11 @@ bool string_copy_string( String *destination, const String *source ) {
 }
 
 bool string_copy_char_array( String *string, const char *text ) {
-    if( strlen( text ) < string->capacity ) {
+    if( strlen( text ) >= string->capacity && !realloc_string( string, strlen( text ) ) ) {
+        return false;
+    } else {
         strcpy( string->char_array, text );
         return true;
-    } else {
-        if( !realloc_string( string, strlen( text ) ) ) {
-            return false;
-        } else {
-            return string_copy_char_array( string, text );
-        }
     }
 }
 
