@@ -34,7 +34,7 @@ struct _String {
 bool calloc_string( String *string, unsigned int capacity );
 bool realloc_string( String *string, unsigned int capacity );
 int get_length_required( const char *format, va_list *list );
-int count_substring( String *string, const char *substring );
+int count_substring( const String *string, const char *substring );
 void concat_n_string( String *destination, const char *replacement );
 
 String *string_new() {
@@ -76,7 +76,7 @@ bool string_copy_char_array( String *string, const char *text ) {
     }
 }
 
-String *string_substring( String *string, int beginIndex, int endIndex ) {
+String *string_substring( const String *string, int beginIndex, int endIndex ) {
     String *substring = string_new_with_size( endIndex - beginIndex );
     if( substring == NULL ) {
         return NULL;
@@ -211,7 +211,7 @@ void concat_n_string( String *destination, const char *replacement ) {
     strncat( destination->char_array, replacement, strlen( replacement ) + 1 ); //+1 for '\0'
 }
 
-int count_substring( String *string, const char *substring ) {
+int count_substring( const String *string, const char *substring ) {
     int count = 0;
     char *tmp_char_array = string->char_array;
     while( ( tmp_char_array = strstr( tmp_char_array, substring ) ) != NULL ) {
@@ -221,7 +221,7 @@ int count_substring( String *string, const char *substring ) {
     return count;
 }
 
-char string_char_at( String *string, unsigned int index ) {
+char string_char_at( const String *string, unsigned int index ) {
     if( index < strlen( string->char_array ) ) {
         return string->char_array[index];
     }

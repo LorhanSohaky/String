@@ -32,7 +32,7 @@ String *string_new_with_size( unsigned int size );
 
 bool string_copy_string( String *destination, const String *source );
 bool string_copy_char_array( String *string, const char *text );
-String *string_substring( String *string, int beginIndex, int endIndex );
+String *string_substring( const String *string, int beginIndex, int endIndex );
 bool string_sprint( String *string, const char *format, ... );
 
 bool string_concat_string( String *destination, const String *source );
@@ -47,7 +47,7 @@ bool string_equals_by_locale( const String *string1, const String *string2 );
 int string_compare( const String *string1, const String *string2 );
 int string_compare_by_locale( const String *string1, const String *string2 );
 
-char string_char_at( String *string, unsigned int index );
+char string_char_at( const String *string, unsigned int index );
 bool string_set_text( String *string, const char *char_array );
 char *string_get_text( const String *string );
 int string_get_length( const String *string );
