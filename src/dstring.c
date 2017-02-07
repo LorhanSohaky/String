@@ -31,11 +31,11 @@ struct _String {
     int capacity; /* number of bytes allocated */
 };
 
-bool calloc_string( String *string, unsigned int capacity );
-bool realloc_string( String *string, unsigned int capacity );
-int get_length_required( const char *format, va_list *list );
-int count_substring( const String *string, const char *substring );
-void concat_n_string( String *destination, const char *replacement );
+bool static calloc_string( String *string, unsigned int capacity );
+bool static realloc_string( String *string, unsigned int capacity );
+int static get_length_required( const char *format, va_list *list );
+int static count_substring( const String *string, const char *substring );
+void static concat_n_string( String *destination, const char *replacement );
 
 String *string_new() {
     String *string = calloc( 1, sizeof( String ) );
@@ -89,27 +89,23 @@ bool string_sprint( String *string, const char *format, ... ) {
     int capacity_required;
     bool result;
     va_list args;
+
     va_start( args, format );
     capacity_required = get_length_required( format, &args );
     va_end( args );
 
     va_start( args, format );
-    if( string->capacity > capacity_required ) {
+    if( string->capacity <= capacity_required && !realloc_string( string, capacity_required ) ) {
+        result = false;
+    } else {
         vsprintf( string->char_array, format, args );
         result = true;
-    } else {
-        if( realloc_string( string, capacity_required ) ) {
-            vsprintf( string->char_array, format, args );
-            result = true;
-        } else {
-            result = false;
-        }
     }
     va_end( args );
     return result;
 }
 
-int get_length_required( const char *format, va_list *list ) {
+int static get_length_required( const char *format, va_list *list ) {
     return vsnprintf( NULL, 0, format, *list );
 }
 
@@ -118,14 +114,12 @@ bool string_concat_string( String *destination, const String *source ) {
 }
 
 bool string_concat_char_array( String *destination, const char *source ) {
-    if( strlen( destination->char_array ) + strlen( source ) < destination->capacity ) {
+    if( strlen( destination->char_array ) + strlen( source ) >= destination->capacity &&
+        !realloc_string( destination, destination->capacity + strlen( source ) ) ) {
+        return false;
+    } else {
         strcat( destination->char_array, source );
         return true;
-    } else {
-        if( !realloc_string( destination, destination->capacity + strlen( source ) ) ) {
-            return false;
-        }
-        return string_concat_char_array( destination, source );
     }
 }
 
@@ -146,10 +140,11 @@ int string_compare_by_locale( const String *string1, const String *string2 ) {
 }
 
 bool string_replace_first( String *string, const char *regex, const char *replacement ) {
-    int total = count_substring( string, regex );
+    char *test = strstr( string->char_array, regex );
     int length_necessary = strlen( replacement ) - strlen( regex );
     String *new_string = string_new_with_size( strlen( string->char_array ) + length_necessary );
-    if( total == 0 || new_string == NULL ) {
+
+    if( test == NULL || new_string == NULL ) {
         return false;
     }
     char *tmp = string->char_array;
@@ -207,11 +202,11 @@ bool string_replace_all( String *string, const char *regex, const char *replacem
     return true;
 }
 
-void concat_n_string( String *destination, const char *replacement ) {
+void static concat_n_string( String *destination, const char *replacement ) {
     strncat( destination->char_array, replacement, strlen( replacement ) + 1 ); //+1 for '\0'
 }
 
-int count_substring( const String *string, const char *substring ) {
+int static count_substring( const String *string, const char *substring ) {
     int count = 0;
     char *tmp_char_array = string->char_array;
     while( ( tmp_char_array = strstr( tmp_char_array, substring ) ) != NULL ) {
@@ -262,9 +257,8 @@ bool string_shrink_to_fit( String *string ) {
     return realloc_string( string, strlen( string->char_array ) );
 }
 
-bool calloc_string( String *string, unsigned int capacity ) {
-    capacity++;
-    string->char_array = calloc( capacity, sizeof( char ) );
+bool static calloc_string( String *string, unsigned int capacity ) {
+    string->char_array = calloc( ++capacity, sizeof( char ) );
 
     if( string->char_array != NULL ) {
         string->capacity = capacity;
@@ -274,9 +268,8 @@ bool calloc_string( String *string, unsigned int capacity ) {
     }
 }
 
-bool realloc_string( String *string, unsigned int capacity ) {
-    capacity++;
-    char *tmp = realloc( string->char_array, capacity * sizeof( char ) );
+bool static realloc_string( String *string, unsigned int capacity ) {
+    char *tmp = realloc( string->char_array, ++capacity * sizeof( char ) );
 
     if( tmp != NULL ) {
         string->char_array = tmp;
