@@ -20,7 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-all:Main clean
+test_program=teste.exe
+
+all:subsystem Main clean run
+
+subsystem:
+	cd ../src && $(MAKE)
 
 Main:example.o
 	gcc -o teste.exe example.o ../src/dstring.o
@@ -30,3 +35,6 @@ example.o:example.c ../src/dstring.h
 
 clean:
 	rm -rf *.o
+
+run:
+	./${test_program}
