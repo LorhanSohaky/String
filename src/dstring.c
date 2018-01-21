@@ -38,29 +38,29 @@ int static count_substring( const String *string, const char *substring );
 void static concat_n_string( String *destination, const char *replacement );
 
 String *string_new() {
-    String *string = calloc( 1, sizeof( String ) );
-    if( string != NULL ) {
-        calloc_string( string, DEFAULT_CAPACITY );
-    }
-    return string;
+    return string_new_with_size( DEFAULT_CAPACITY );
 }
 
 String *string_new_with_text( const char *text ) {
     String *string = string_new_with_size( strlen( text ) );
-    if( string != NULL ) {
-        if( !string_copy_char_array( string, text ) ) {
-            string_free( string );
-        }
+
+    if( string && string_copy_char_array( string, text ) ) {
+        return string;
+    } else {
+        string_free( string );
+        return NULL;
     }
-    return string;
 }
 
 String *string_new_with_size( unsigned int size ) {
     String *string = calloc( 1, sizeof( String ) );
-    if( string != NULL ) {
-        calloc_string( string, size );
+
+    if( string && calloc_string( string, size ) ) {
+        return string;
+    } else {
+        string_free( string );
+        return NULL;
     }
-    return string;
 }
 
 bool string_copy_string( String *destination, const String *source ) {
