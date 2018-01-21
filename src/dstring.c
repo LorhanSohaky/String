@@ -78,10 +78,13 @@ bool string_copy_char_array( String *string, const char *text ) {
 
 String *string_substring( const String *string, int beginIndex, int endIndex ) {
     String *substring = string_new_with_size( endIndex - beginIndex );
-    if( substring == NULL ) {
+
+    if( !substring ) {
         return NULL;
     }
+
     memcpy( substring->char_array, &( string->char_array[beginIndex] ), endIndex );
+
     return substring;
 }
 
@@ -102,6 +105,7 @@ bool string_sprint( String *string, const char *format, ... ) {
         result = true;
     }
     va_end( args );
+
     return result;
 }
 
@@ -142,11 +146,13 @@ int string_compare_by_locale( const String *string1, const String *string2 ) {
 bool string_replace_first( String *string, const char *regex, const char *replacement ) {
     char *test = strstr( string->char_array, regex );
     int length_necessary = strlen( replacement ) - strlen( regex );
+
     String *new_string = string_new_with_size( strlen( string->char_array ) + length_necessary );
 
-    if( test == NULL || new_string == NULL ) {
+    if( !test || !new_string ) {
         return false;
     }
+
     char *tmp = string->char_array;
     int init_position;
 
@@ -162,16 +168,20 @@ bool string_replace_first( String *string, const char *regex, const char *replac
     free( string->char_array );
     string->char_array = new_string->char_array;
     free( new_string );
+
     return true;
 }
 
 bool string_replace_all( String *string, const char *regex, const char *replacement ) {
     int total = count_substring( string, regex );
     int length_necessary = ( strlen( replacement ) - strlen( regex ) ) * total;
+
     String *new_string = string_new_with_size( strlen( string->char_array ) + length_necessary );
-    if( total == 0 || new_string == NULL ) {
+
+    if( total == 0 || !new_string ) {
         return false;
     }
+
     char *tmp = string->char_array;
     char *next;
     int init_position;
@@ -179,6 +189,7 @@ bool string_replace_all( String *string, const char *regex, const char *replacem
     tmp = strstr( tmp, regex );
     init_position = tmp - string->char_array;
     strncpy( new_string->char_array, string->char_array, init_position );
+
     for( int i = 0; i < total; i++ ) {
         new_string->char_array[init_position] = '\0';
         concat_n_string( new_string, replacement );
@@ -187,7 +198,7 @@ bool string_replace_all( String *string, const char *regex, const char *replacem
         next = strstr( next, regex );
 
         tmp += strlen( regex );
-        if( next == NULL ) {
+        if( !next ) {
             next = &tmp[strlen( tmp ) + 1];
         }
         tmp[next - tmp] = '\0';
@@ -199,6 +210,7 @@ bool string_replace_all( String *string, const char *regex, const char *replacem
     free( string->char_array );
     string->char_array = new_string->char_array;
     free( new_string );
+
     return true;
 }
 
@@ -209,10 +221,12 @@ void static concat_n_string( String *destination, const char *replacement ) {
 int static count_substring( const String *string, const char *substring ) {
     int count = 0;
     char *tmp_char_array = string->char_array;
+
     while( ( tmp_char_array = strstr( tmp_char_array, substring ) ) != NULL ) {
         count++;
         tmp_char_array += strlen( substring );
     }
+
     return count;
 }
 
@@ -220,6 +234,7 @@ char string_char_at( const String *string, unsigned int index ) {
     if( index < strlen( string->char_array ) ) {
         return string->char_array[index];
     }
+
     return '\0';
 }
 
@@ -244,10 +259,9 @@ bool string_is_empty( const String *string ) {
 }
 
 void string_free( String *string ) {
-    if( string != NULL ) {
-        if( string->char_array != NULL ) {
+    if( string ) {
+        if( string->char_array ) {
             free( string->char_array );
-            string->char_array = NULL;
         }
         free( string );
     }
@@ -260,7 +274,7 @@ bool string_shrink_to_fit( String *string ) {
 bool static calloc_string( String *string, unsigned int capacity ) {
     string->char_array = calloc( ++capacity, sizeof( char ) );
 
-    if( string->char_array != NULL ) {
+    if( !string->char_array ) {
         string->capacity = capacity;
         return true;
     } else {
@@ -271,7 +285,7 @@ bool static calloc_string( String *string, unsigned int capacity ) {
 bool static realloc_string( String *string, unsigned int capacity ) {
     char *tmp = realloc( string->char_array, ++capacity * sizeof( char ) );
 
-    if( tmp != NULL ) {
+    if( !tmp ) {
         string->char_array = tmp;
         string->capacity = capacity;
         return true;
