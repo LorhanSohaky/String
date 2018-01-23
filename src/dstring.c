@@ -20,6 +20,7 @@ SOFTWARE.
 
 #include <dstring.h>
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -255,6 +256,17 @@ bool string_is_empty( const String *string ) {
         return true;
     } else {
         return false;
+    }
+}
+
+void string_tolower( String *string ) {
+    for( int i = 0; i < strlen( string->char_array ); i++ ) {
+        string->char_array[i] = (char)tolower( string->char_array[i] );
+    }
+}
+void string_toupper( String *string ) {
+    for( int i = 0; i < strlen( string->char_array ); i++ ) {
+        string->char_array[i] = (char)toupper( string->char_array[i] );
     }
 }
 

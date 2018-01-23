@@ -44,6 +44,8 @@ void test_string_replace_all();
 void test_string_replace_first();
 void test_string_substring();
 void test_string_set_text();
+void test_string_tolower();
+void test_string_toupper();
 
 int main( int argc, char const *argv[] ) {
     setlocale( LC_ALL, "Portuguese" );
@@ -67,6 +69,9 @@ int main( int argc, char const *argv[] ) {
     test_string_replace_first();
     test_string_substring();
     test_string_set_text();
+    test_string_tolower();
+    test_string_toupper();
+
     return 0;
 }
 
@@ -281,4 +286,24 @@ void test_string_set_text() {
     assert( strcmp( string_get_text( string ), text ) == 0 );
 
     string_free( string );
+}
+
+void test_string_tolower() {
+    printf( "String to lowercase\n" );
+    String *string = string_new_with_text( "Olá moça" );
+
+    String *result = string_new_with_text( "olá moça" );
+
+    string_tolower( string );
+
+    assert( string_equals( string, result ) == true );
+}
+void test_string_toupper() {
+    printf( "String to uppercase\n" );
+    String *string = string_new_with_text( "Olá moço" );
+    String *result = string_new_with_text( "OLá MOçO" );
+
+    string_toupper( string );
+
+    assert( string_equals( string, result ) == true );
 }

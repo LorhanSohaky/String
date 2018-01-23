@@ -53,6 +53,9 @@ char *string_get_text( const String *string );
 int string_get_length( const String *string );
 bool string_is_empty( const String *string );
 
+void string_tolower( String *string );
+void string_toupper( String *string );
+
 void string_free( String *string );
 bool string_shrink_to_fit( String *string );
 
