@@ -274,7 +274,7 @@ bool string_shrink_to_fit( String *string ) {
 bool static calloc_string( String *string, unsigned int capacity ) {
     string->char_array = calloc( ++capacity, sizeof( char ) );
 
-    if( !string->char_array ) {
+    if( string->char_array ) {
         string->capacity = capacity;
         return true;
     } else {
@@ -285,7 +285,7 @@ bool static calloc_string( String *string, unsigned int capacity ) {
 bool static realloc_string( String *string, unsigned int capacity ) {
     char *tmp = realloc( string->char_array, ++capacity * sizeof( char ) );
 
-    if( !tmp ) {
+    if( tmp ) {
         string->char_array = tmp;
         string->capacity = capacity;
         return true;
